@@ -1,64 +1,112 @@
-# 🎬 IMDB Reviews Sentiment Classifier
+<div align="center">
 
-A deep learning-powered sentiment analysis tool that classifies movie reviews as positive or negative using advanced NLP techniques and neural networks.
+# IMDb Review Sentiment Classifier 🎬
 
-## 🚀 Performance Highlights
+**A neural network that reads a movie review in both directions before choosing a side.**
 
-- **82% Test Accuracy** - Outperforming baseline logistic regression by over 20%
-- **500MB+ Data Processing** - Efficient handling of large-scale text datasets
-- **30% Faster Training** - Optimized preprocessing pipeline
-- **15% Better Precision** - Enhanced sentiment comprehension through advanced architecture
-- **20% Fewer Errors** - Reduced false positives/negatives via improved context retention
+A notebook-based NLP project that trains stacked bidirectional LSTMs to classify
+IMDb reviews as positive or negative.
 
-## 🛠️ Tech Stack
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
-- **Python** - Core programming language
-- **TensorFlow** - Deep learning framework
-- **NumPy** - Numerical computing
-- **Bidirectional LSTMs** - Advanced neural network architecture
-- **NLP Pipeline** - Custom text preprocessing
+</div>
 
-## 🧠 Model Architecture
+---
 
-The classifier uses **stacked Bidirectional LSTM layers** to capture both forward and backward context in movie reviews, enabling superior understanding of sentiment patterns compared to traditional approaches.
+## What it is
 
-### Key Features:
-- **Bidirectional Processing** - Analyzes text in both directions for better context
-- **Stacked Architecture** - Multiple LSTM layers for complex pattern recognition
-- **Optimized Tokenization** - Efficient text preprocessing and sequence handling
-- **Smart Padding** - Optimized sequence length management
+This project walks through an end-to-end binary sentiment classification
+pipeline in a single reproducible notebook. Raw review text is cleaned,
+tokenized, converted into padded integer sequences, and passed through a neural
+network that learns sentiment from word order and surrounding context.
 
-## 📊 Results
+The repository keeps the experimentation visible. Model construction, training,
+validation, and output live beside the preprocessing code instead of being
+hidden behind a finished API.
 
-| Metric | Value | Improvement |
-|--------|--------|-------------|
-| Test Accuracy | 82% | +20% vs baseline |
-| Training Speed | - | 30% faster |
-| Precision | - | +15% improvement |
-| Error Reduction | - | 20% fewer false pos/neg |
+## The model
 
-## 🔧 Technical Implementation
+```text
+Tokenized review
+      ↓
+Embedding layer
+      ↓
+Bidirectional LSTM, 64 units, returns sequences
+      ↓
+Bidirectional LSTM, 32 units
+      ↓
+Dropout, 0.5
+      ↓
+Binary sentiment prediction
+```
 
-### Data Pipeline
-- Preprocessed 500MB+ of raw IMDB review data
-- Implemented efficient tokenization and sequence padding
-- Optimized memory usage for large dataset processing
+A normal recurrent layer reads from the first token to the last. A
+bidirectional layer also processes the sequence in reverse, giving the model
+access to context on both sides of a phrase. Stacking two layers lets the first
+produce a richer sequence representation for the second to summarize.
 
-### Model Training
-- Custom deep learning architecture with stacked Bidirectional LSTMs
-- Advanced context retention for nuanced sentiment understanding
-- Hyperparameter tuning for optimal performance
+## Pipeline
 
-## 🎯 Use Cases
+1. Load positive and negative IMDb review text.
+2. Normalize and label the examples.
+3. Build a vocabulary with Keras tokenization.
+4. Convert reviews into integer sequences.
+5. Pad or truncate sequences to a common length.
+6. Train the stacked bidirectional LSTM for ten epochs.
+7. Track training and validation behavior in the notebook.
 
-- **Movie Review Analysis** - Automatically classify user reviews
-- **Sentiment Monitoring** - Track public opinion on films
-- **Content Moderation** - Identify negative sentiment patterns
-- **Market Research** - Analyze audience reactions
+## Honest results
 
-## 📈 Future Enhancements
+The previous README listed several percentage improvements without including
+the baseline experiment or measurement code required to verify them. Those
+claims have been removed. The notebook is now the source of truth for model
+configuration and results, which is healthier than résumé-metric fan fiction.
 
-- [ ] Add support for multi-class sentiment classification
-- [ ] Implement real-time sentiment analysis API
-- [ ] Extend to other review domains (restaurants, products)
-- [ ] Add visualization dashboard for sentiment trends
+## Run it
+
+### Google Colab
+
+1. Open [`SentimentAnalysis.ipynb`](SentimentAnalysis.ipynb).
+2. Choose **Open in Colab** from GitHub or upload the notebook to Colab.
+3. Run the cells from top to bottom.
+
+### Local Jupyter
+
+```bash
+git clone https://github.com/jguapp/IMDB-Reviews-Sentiment-Classifier.git
+cd IMDB-Reviews-Sentiment-Classifier
+
+python -m venv .venv
+source .venv/bin/activate       # Windows: .venv\Scripts\activate
+pip install jupyter tensorflow numpy
+jupyter notebook SentimentAnalysis.ipynb
+```
+
+Training time depends heavily on whether TensorFlow can use a GPU.
+
+## Repository
+
+```text
+.
+├── README.md
+└── SentimentAnalysis.ipynb   preprocessing, model, training, and evaluation
+```
+
+## Next steps
+
+- Add a deterministic train/validation/test split
+- Record a confusion matrix, precision, recall, and F1 score
+- Compare against a TF-IDF logistic-regression baseline
+- Save the tokenizer and trained model as versioned artifacts
+- Add a small inference script or API
+- Document the dataset source and exact preprocessing assumptions
+
+---
+
+<div align="center">
+Built by <a href="https://github.com/jguapp">Joel Vasquez</a>
+</div>
+
