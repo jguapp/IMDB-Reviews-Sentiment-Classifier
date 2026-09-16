@@ -1,9 +1,3 @@
-<div align="center">
-  <img src=".github/assets/banner.svg" alt="IMDb Review Sentiment Classifier — bidirectional LSTM NLP project" width="100%" />
-</div>
-
-<div align="center">
-
 # IMDb Review Sentiment Classifier 🎬
 
 **A neural network that reads a movie review in both directions before choosing a side.**
@@ -17,15 +11,6 @@ IMDb reviews as positive or negative.
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
 </div>
-
----
-
-<div align="center">
-  <img src=".github/assets/product-preview.svg" alt="IMDb Review Sentiment Classifier — bidirectional LSTM NLP project illustrated product preview" width="100%" />
-  <sub>Illustrated product preview based on implemented features.</sub>
-</div>
-
----
 
 ## What it is
 
